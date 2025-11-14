@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herbsmith | Dedicated Hair Wellness</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Embedded CSS */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcfcf9; /* Very light cream/off-white */
+        }
+        /* Custom brand colors */
+        .brand-green { background-color: #4a772f; }
+        .text-brand-green { color: #4a772f; }
+        .border-brand-green { border-color: #4a772f; }
+        
+        /* Custom box for comparison sections */
+        .comparison-box {
+            border-left: 6px solid;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .comparison-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Animation classes for Intersection Observer */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition-delay: 0.1s;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Lazy loading image transition */
+        .lazy-image {
+            background-color: #e0e0e0; /* Placeholder gray before load */
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+        .lazy-image.loaded {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-4xl font-extrabold text-brand-green tracking-tight">Herbsmith.</a>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest -mt-1">Natural Wellness</p>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8 font-medium">
+                    <a href="#" class="text-gray-600 hover:text-brand-green transition duration-300">Home</a>
+                    <a href="#hair-wellness" class="text-brand-green font-bold border-b-2 border-brand-green pb-1">Hair Wellness</a>
+                    <a href="#shop-preview" class="text-gray-600 hover:text-brand-green transition duration-300">Shop</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <!-- Hero Section -->
+        <section id="hair-wellness" class="py-20 md:py-32 bg-brand-green/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-on-scroll">
+                <h1 class="text-6xl font-extrabold text-gray-900 leading-tight">
+                    Dedicated <span class="text-brand-green">Hair & Scalp</span> Health 🌿
+                </h1>
+                <p class="mt-6 text-2xl text-gray-600 max-w-3xl mx-auto">
+                    Deep dive into the roots of hair loss and the paths to natural restoration, blending ancient wisdom with modern science.
+                </p>
+            </div>
+        </section>
+
+        <!-- Comparison Section -->
+        <section class="py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 animate-on-scroll">
+                    <h2 class="text-4xl font-bold text-gray-900">
+                        Understanding Hair Loss: Modern Science vs. Ayurveda
+                    </h2>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-2xl animate-on-scroll">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <!-- Modern Medical Science Box -->
+                        <div class="comparison-box border-brand-green p-6 bg-gray-50 rounded-lg">
+                            <!-- Removed image placeholder, relying on title emoji -->
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
+                                <span class="mr-2 text-3xl">🔬</span> Modern Medical Science
+                            </h3>
+                            <ul class="space-y-4 text-gray-700 list-none pl-0 text-lg">
+                                <li class="p-2 border-b border-gray-200 flex items-start">
+                                    <span class="mr-3 text-xl leading-none">🧬</span>
+                                    <div>
+                                        <span class="font-bold text-brand-green">Cause:</span> Focuses on **hormonal factors** (e.g., DHT), **genetics**, and **autoimmune conditions**.
+                                    </div>
+                                </li>
+                                <li class="p-2 border-b border-gray-200 flex items-start">
+                                    <span class="mr-3 text-xl leading-none">💊</span>
+                                    <div>
+                                        <span class="font-bold text-brand-green">Solution:</span> Topical treatments (Minoxidil), oral medications (Finasteride), or hair transplantation.
+                                    </div>
+                                </li>
+                                <li class="p-2 flex items-start">
+                                    <span class="mr-3 text-xl leading-none">🔍</span>
+                                    <div>
+                                        <span class="font-bold text-brand-green">Viewpoint:</span> Hair loss is a **local** follicular/dermatological issue or a genetic predisposition.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Ayurveda Box -->
+                        <div class="comparison-box border-red-500 p-6 bg-red-50 rounded-lg">
+                            <!-- Removed image placeholder, relying on title emoji -->
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
+                                <span class="mr-2 text-3xl">🧘</span> Ayurvedic Wisdom
+                            </h3>
+                            <ul class="space-y-4 text-gray-700 list-none pl-0 text-lg">
+                                <li class="p-2 border-b border-red-200 flex items-start">
+                                    <span class="mr-3 text-xl leading-none text-red-700">🔥</span>
+                                    <div>
+                                        <span class="font-bold text-red-700">Cause:</span> Primarily **Pitta Dosha aggravation** (excess heat/inflammation) and poor **Rasa Dhatu** (nutritional fluid) quality.
+                                    </div>
+                                </li>
+                                <li class="p-2 border-b border-red-200 flex items-start">
+                                    <span class="mr-3 text-xl leading-none text-red-700">🌱</span>
+                                    <div>
+                                        <span class="font-bold text-red-700">Solution:</span> Cooling herbs (Bhringraj, Amla), **internal detoxification**, and scalp massage (Shiro Abhyanga).
+                                    </div>
+                                </li>
+                                <li class="p-2 flex items-start">
+                                    <span class="mr-3 text-xl leading-none text-red-700">🍎</span>
+                                    <div>
+                                        <span class="font-bold text-red-700">Viewpoint:</span> Hair loss is viewed as a **systemic imbalance** starting in the gut (Agni) and blood (Rakta Dhatu).
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 p-6 bg-yellow-50 border border-yellow-300 rounded-xl text-center shadow-inner">
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">The Herbsmith Approach</h4>
+                        <p class="text-lg font-medium text-gray-800">
+                            We **blend** these philosophies, using modern efficacy tests while formulating with time-tested Ayurvedic herbs to address the root, systemic causes for lasting vitality.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Hair Remedies Section -->
+        <section id="shop-preview" class="py-16 md:py-24 bg-gray-50/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div class="animate-on-scroll">
+                    <h2 class="text-4xl font-extrabold text-gray-900">Featured Hair Remedies</h2>
+                    <p class="mt-4 text-xl text-gray-600">Herbal solutions for nourishment and regrowth.</p>
+                </div>
+
+                <div class="mt-16 flex flex-wrap justify-center gap-8">
+                    <!-- Product Card 1: Hair Oil -->
+                    <div class="bg-white rounded-xl shadow-xl overflow-hidden w-full max-w-sm p-6 hover:shadow-2xl transition duration-300 animate-on-scroll">
+                        <img 
+                            class="w-full h-auto rounded-lg lazy-image aspect-square object-cover" 
+                            data-src="https://placehold.co/400x400/a7b99c/4a772f?text=SHINE+HAIR+OIL" 
+                            alt="Shine Hair Oil Product"
+                        >
+                        <div class="p-4 text-center">
+                            <h3 class="text-xl font-semibold text-gray-900 mt-4">Shine & Strength Hair Oil</h3>
+                            <p class="text-md text-gray-500 mt-1">Targeted for Pitta imbalance. Key Ingredients: Bhringraj, Brahmi, Amla.</p>
+                            <a href="#" class="mt-5 inline-block text-white brand-green py-2 px-6 rounded-full font-bold hover:bg-brand-green/90 transition duration-300 shadow-md">Shop Now &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 2: Internal Tonic -->
+                    <div class="bg-white rounded-xl shadow-xl overflow-hidden w-full max-w-sm p-6 hover:shadow-2xl transition duration-300 animate-on-scroll" style="transition-delay: 0.3s;">
+                        <img 
+                            class="w-full h-auto rounded-lg lazy-image aspect-square object-cover" 
+                            data-src="https://placehold.co/400x400/d9d4c1/4a772f?text=HAIR+TONIC" 
+                            alt="Internal Hair Tonic"
+                        >
+                        <div class="p-4 text-center">
+                            <h3 class="text-xl font-semibold text-gray-900 mt-4">Inner Radiance Tonic</h3>
+                            <p class="text-md text-gray-500 mt-1">Supports blood purity (Rakta Dhatu) and inner heat. Key Ingredients: Manjistha, Shatavari.</p>
+                            <a href="#" class="mt-5 inline-block text-white brand-green py-2 px-6 rounded-full font-bold hover:bg-brand-green/90 transition duration-300 shadow-md">Shop Now &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer id="contact" class="bg-gray-800 text-white py-12 text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-sm text-gray-400">
+                &copy; 2025 Herbsmith. All rights reserved. | <a href="#" class="hover:text-brand-green">Privacy Policy</a>
+            </p>
+        </div>
+    </footer>
+    
+    <!-- Floating Chatbot Icon/Link -->
+    <a href="#" class="fixed bottom-6 right-6 z-50 p-4 brand-green text-white rounded-full shadow-2xl hover:bg-brand-green/90 transition duration-300 transform hover:scale-105" title="Chat with our Herbalist Bot">
+        <span class="text-3xl leading-none">💬</span>
+    </a>
+
+    <script>
+        // --- Interactivity and Lazy Loading Logic ---
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Image Lazy Loading Setup
+            const lazyImages = document.querySelectorAll('.lazy-image');
+            
+            // 2. Animation Setup
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            // Fallback for browsers that don't support Intersection Observer
+            if (!('IntersectionObserver' in window)) {
+                lazyImages.forEach(img => {
+                    img.src = img.dataset.src;
+                    img.classList.add('loaded');
+                });
+                animateElements.forEach(el => el.classList.add('is-visible'));
+                console.log('IntersectionObserver not supported. Images and animations loaded immediately.');
+                return;
+            }
+
+            // --- A. Image Lazy Loader Observer ---
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        // Load image by swapping data-src to src
+                        img.src = img.dataset.src;
+                        img.onload = () => {
+                             // Add 'loaded' class after the image is fully loaded for the fade transition
+                            img.classList.add('loaded'); 
+                            img.removeAttribute('data-src'); // Clean up
+                        };
+                        observer.unobserve(img);
+                    }
+                });
+            }, { 
+                rootMargin: '100px 0px 100px 0px' // Start loading images 100px before they enter the viewport
+            }); 
+
+            lazyImages.forEach(img => {
+                imageObserver.observe(img);
+            });
+
+            // --- B. Section Animation Observer (Fade-Up Effect) ---
+            const animationObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    // Check if the element is visible
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, { 
+                threshold: 0.1, // Trigger when 10% of the element is visible
+                rootMargin: '0px 0px -50px 0px'
+            }); 
+
+            animateElements.forEach(el => {
+                animationObserver.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
