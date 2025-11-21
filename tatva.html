@@ -1,1 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herbs AI  - Ayurveda Chatbot</title>
+    <link rel="icon" type="image/png" href="./media/Screenshot_2025-11-10_at_00.36.18-removebg-preview.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<style>
+    /* --- 1. Global Setup & Theme (Ayurveda Inspired) --- */
+:root {
+    --bg-main: #F5F3E7;
+    --bg-sidebar: #1E4D2B;
+    --bg-user-msg: #E8F5E9;
+    --bg-bot-msg: #DDEAC1;
+    --text-primary: #1B1B1B;
+    --text-secondary: #3B5933;
+    --border-color: #A4C49E;
+    --accent-green: #3E7B33;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+body {
+    display: flex;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    overflow: hidden;
+}
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: var(--bg-sidebar);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    border-right: 3px solid var(--accent-green);
+    flex-shrink: 0;
+}
+.sidebar-header {
+    text-align: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #2E6D41;
+}
+.ai-herbs-logo {
+    width: 60px;
+    height: auto;
+    margin-bottom: 10px;
+}
+.sidebar-header h1 {
+    font-size: 1.6rem;
+    color: #F5F3E7;
+    letter-spacing: 1px;
+}
+.new-chat-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: transparent;
+    border: 1px solid #A9D9B0;
+    border-radius: 6px;
+    color: #F5F3E7;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+.new-chat-btn:hover {
+    background-color: #2E6D41;
+    color: #fff;
+}
+.chat-history {
+    margin-top: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.chat-history h3 {
+    color: #B8D8B3;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+#chat-history-list {
+    list-style: none;
+}
+#chat-history-list li {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    color: #F5F3E7;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+#chat-history-list li:hover {
+    background-color: #3A855C;
+}
+/* Main Chat Area */
+.chat-container {
+    flex-grow: 1;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-main);
+}
+.chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+/* Message Styling */
+.message {
+    padding: 15px 20px;
+    border-radius: 10px;
+    max-width: 80%;
+    line-height: 1.5;
+    word-wrap: break-word;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+}
+.message.user {
+    background-color: var(--bg-user-msg);
+    align-self: flex-end;
+    border: 1px solid var(--accent-green);
+}
+.message.bot {
+    background-color: var(--bg-bot-msg);
+    align-self: flex-start;
+    border: 1px solid var(--border-color);
+}
+.message strong {
+    color: var(--accent-green);
+}
+.message img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 5px;
+}
+/* Typing Indicator */
+.typing-indicator {
+    padding: 0 20px 10px 20px;
+    color: var(--accent-green);
+    font-style: italic;
+}
+.typing-indicator span {
+    animation: blink 1.4s infinite both;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+/* Input Form */
+.chat-input-form {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--bg-main);
+    border-top: 1px solid var(--border-color);
+}
+.icon-btn, .upload-btn {
+    background: none;
+    border: none;
+    color: var(--accent-green);
+    font-size: 1.6rem;
+    cursor: pointer;
+    padding-right: 10px;
+    transition: all 0.2s ease;
+}
+.icon-btn:hover, .upload-btn:hover {
+    color: #2E6D41;
+    transform: scale(1.1);
+}
+#user-input {
+    flex-grow: 1;
+    padding: 14px;
+    background-color: #fff;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+#user-input:focus {
+    border-color: var(--accent-green);
+    box-shadow: 0 0 6px rgba(62,123,51,0.3);
+}
+.chat-input-form button[type="submit"] {
+    background: none;
+    border: none;
+    color: var(--accent-green);
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding-left: 15px;
+    transition: transform 0.2s;
+}
+.chat-input-form button[type="submit"]:hover {
+    transform: scale(1.1);
+}
+/* Camera Modal */
+.camera-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(34, 56, 34, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.camera-modal-content {
+    background-color: #F5F3E7;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid var(--accent-green);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    color: var(--text-primary);
+}
+#camera-feed {
+    width: 100%;
+    border-radius: 6px;
+    background-color: #000;
+    margin-bottom: 15px;
+}
+.camera-controls {
+    display: flex;
+    justify-content: space-around;
+}
+.modal-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 2px solid var(--accent-green);
+    background-color: var(--bg-user-msg);
+    color: var(--accent-green);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.modal-btn:hover {
+    background-color: var(--accent-green);
+    color: white;
+}
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar { display: none; }
+    .chat-container { width: 100%; }
+    .message { max-width: 90%; }
+}
+@media (max-width: 600px) {
+    body, html { font-size: 15px; overflow: auto; }
+    .chat-container { padding: 0 !important; width: 100vw; min-height: 100vh; }
+    .chat-messages { padding: 10px 4px; gap: 8px; font-size: 1rem; }
+    .chat-input-form {
+        position: fixed; left: 0; bottom: 0; width: 100vw; padding: 8px 8px 8px 4px;
+        border-radius: 0; border-top: 2px solid var(--border-color); background-color: var(--bg-main); z-index: 999;
+        justify-content: space-between;
+    }
+    #user-input { font-size: 1rem; min-height: 36px; padding: 8px; }
+    .icon-btn, .upload-btn, .chat-input-form button[type="submit"] { font-size: 1.2rem; padding: 6px; }
+    .message { padding: 10px 12px; font-size: 0.98rem; max-width: 98vw; }
+    .camera-modal-content { width: 98vw; max-width: 97vw; min-width: 50vw; padding: 10px 4px; }
+    #camera-feed { max-width: 95vw; width: 100%; min-width: 180px; border-radius: 8px; }
+}
+</style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img  src="./media/Screenshot_2025-11-10_at_00.36.18-removebg-preview.png" alt="AI Herbs Logo" class="ai-herbs-logo" onerror="this.style.display='none'">
+            <a href="index.html"><h1>HERBZ AI</h1></a>
+        </div>
+        <button class="new-chat-btn" id="new-chat-btn">
+            <span class="material-icons-outlined">add</span>
+            New Chat
+        </button>
+        <div class="chat-history">
+            <h3>Chat History</h3>
+            <ul id="chat-history-list"></ul>
+        </div>
+    </aside>
+    <main class="chat-container">
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="typing-indicator" id="typing-indicator" style="display: none;">
+            AI Herbs is scanning
+            <span>.</span><span>.</span><span>.</span>
+        </div>
+        <form class="chat-input-form" id="chat-form">
+            <button type="button" class="icon-btn upload-btn" id="upload-btn" title="Upload Image">
+                <span class="material-icons-outlined">attach_file</span>
+            </button>
+            <button type="button" class="icon-btn" id="camera-btn" title="Take Photo">
+                <span class="material-icons-outlined">photo_camera</span>
+            </button>
+            <input type="file" id="file-input" accept="image/*" style="display: none;">
+            <input type="text" id="user-input" placeholder="Ask about an herb..." autocomplete="off">
+            <button type="submit" title="Send">
+                <span class="material-icons-outlined">send</span>
+            </button>
+        </form>
+    </main>
+    <div class="camera-modal" id="camera-modal">
+        <div class="camera-modal-content">
+            <h3>Take a Picture</h3>
+            <video id="camera-feed" autoplay playsinline></video>
+            <div class="camera-controls">
+                <button type="button" class="modal-btn" id="snap-btn">Snap</button>
+                <button type="button" class="modal-btn" id="close-camera-btn">Close</button>
+            </div>
+        </div>
+    </div>
+    <canvas id="canvas-capture" style="display: none;"></canvas>
+    <script>
+       document.addEventListener('DOMContentLoaded', () => {
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
+    const chatMessages = document.getElementById('chat-messages');
+    const newChatBtn = document.getElementById('new-chat-btn');
+    const chatHistoryList = document.getElementById('chat-history-list');
+    const typingIndicator = document.getElementById('typing-indicator');
+    const uploadBtn = document.getElementById('upload-btn');
+    const fileInput = document.getElementById('file-input');
+    const cameraBtn = document.getElementById('camera-btn');
+    const cameraModal = document.getElementById('camera-modal');
+    const cameraFeed = document.getElementById('camera-feed');
+    const snapBtn = document.getElementById('snap-btn');
+    const closeCameraBtn = document.getElementById('close-camera-btn');
+    const canvas = document.getElementById('canvas-capture');
+    
+    // --- Add Tesseract.js for OCR ---
+    const script = document.createElement('script');
+    script.src = "https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js";
+    document.head.appendChild(script);
 
+    const ayurvedaKeywords = {
+        "turmeric": "Turmeric (Haldi) is known for its powerful anti-inflammatory and antioxidant properties. It's commonly used to boost immunity and improve skin health.",
+        "ashwagandha": "Ashwagandha is an adaptogen that helps your body manage stress.",
+        "triphala": "Triphala is a blend of three fruits, used for digestion and detoxification.",
+        "brahmi": "Brahmi boosts brain function, improves memory and focus.",
+        "neem": "Neem purifies the blood and supports skin health.",
+        "edta": "EDTA (ethylenediaminetetraacetic acid) binds to heavy metals and is used in chelation therapy. It should be used with medical supervision.<br><br><ul><li>EDTA can cause skin dryness, itching, redness, rashes, and irritation, especially for people with sensitive skin or eczema. It may exacerbate skin conditions by damaging the skin barrier and causing cracked skin areas</li><br><li>EDTA in soaps and shampoos can enhance the absorption of other harmful chemicals into the skin, potentially leading to deeper penetration of allergens or toxins and systemic exposure.</li><br><li>Frequent use of EDTA-containing products has been linked to the depletion of essential minerals such as zinc, iron, and magnesium, which could affect skin and gut health by weakening the gut lining and disrupting nutrient absorption.</li></ul>",
+        "sls": "Sodium Lauryl Sulfate (SLS), a common ingredient in soaps and shampoos, is known for its cleansing and foaming properties but can have several side effects, particularly for sensitive users and with prolonged use.<br><br><ul><li>SLS frequently causes skin irritation, manifesting as redness, dryness, itching, or even rashes, especially with longer exposure or higher concentrations</li><br><li>The compound can also cause eye irritation, especially if it comes into direct contact with the eyes during rinsing.</li></ul>",
+        // more keywords can be added here
+    };
+    const WELCOME_MESSAGE = {
+        sender: 'bot',
+        type: 'text',
+        content: 'Welcome to AI Herbs! You can ask or scan for herbs like Turmeric, Ashwagandha, or EDTA.'
+    };
+    let currentChatId = null;
+    let allChats = [];
+    let currentStream = null;
+
+    function loadChatHistory() {
+        const storedChats = localStorage.getItem('ai-herbs-chats');
+        if (storedChats) {
+            allChats = JSON.parse(storedChats);
+            renderChatHistoryList();
+        }
+    }
+
+    function renderChatHistoryList() {
+        chatHistoryList.innerHTML = '';
+        allChats.forEach(chat => {
+            const li = document.createElement('li');
+            li.textContent = chat.title;
+            li.dataset.chatId = chat.id;
+            li.addEventListener('click', () => loadChat(chat.id));
+            chatHistoryList.prepend(li);
+        });
+    }
+
+    function saveAllChatsToLocalStorage() {
+        localStorage.setItem('ai-herbs-chats', JSON.stringify(allChats));
+    }
+
+    function startNewChat() {
+        currentChatId = null;
+        chatMessages.innerHTML = '';
+        appendMessage(WELCOME_MESSAGE.content, WELCOME_MESSAGE.sender);
+        hideTypingIndicator();
+    }
+
+    chatForm.addEventListener('submit', handleChatSubmit);
+    newChatBtn.addEventListener('click', startNewChat);
+    uploadBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', handleFileSelect);
+    cameraBtn.addEventListener('click', openCamera);
+    closeCameraBtn.addEventListener('click', closeCamera);
+    snapBtn.addEventListener('click', takePicture);
+
+    async function handleChatSubmit(e) {
+        e.preventDefault();
+        const message = userInput.value.trim();
+        if (!message) return;
+        appendMessage(message, 'user');
+        showTypingIndicator();
+        setTimeout(() => {
+            const response = getBotResponse(message);
+            hideTypingIndicator();
+            appendMessage(response, 'bot');
+        }, 1000);
+        userInput.value = '';
+    }
+
+    function getBotResponse(input) {
+        const lowerInput = input.toLowerCase();
+        let found = [];
+        for (const key in ayurvedaKeywords) {
+            if (lowerInput.includes(key)) {
+                found.push(`<strong>${key}</strong>: ${ayurvedaKeywords[key]}`);
+            }
+        }
+        if (found.length > 0) {
+            return found.join('<br><br>');
+        }
+        return "I couldn't find that herb. Try scanning or typing a known one like Neem or EDTA.";
+    }
+
+    async function handleFileSelect(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            const imageUrl = event.target.result;
+            appendImageMessage(imageUrl, 'user');
+            await scanImageForKeywords(imageUrl);
+        };
+        reader.readAsDataURL(file);
+        e.target.value = null;
+    }
+
+    async function openCamera() {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            try {
+                currentStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                cameraModal.style.display = 'flex';
+                cameraFeed.srcObject = currentStream;
+            } catch (err) {
+                appendMessage("Camera permission denied. Please enable camera access.", "bot");
+            }
+        }
+    }
+
+    function closeCamera() {
+        if (currentStream) currentStream.getTracks().forEach(track => track.stop());
+        currentStream = null;
+        cameraModal.style.display = 'none';
+    }
+
+    function takePicture() {
+        const context = canvas.getContext('2d');
+        canvas.width = cameraFeed.videoWidth;
+        canvas.height = cameraFeed.videoHeight;
+        context.drawImage(cameraFeed, 0, 0, canvas.width, canvas.height);
+        const imageUrl = canvas.toDataURL('image/png');
+        closeCamera();
+        appendImageMessage(imageUrl, 'user');
+        scanImageForKeywords(imageUrl);
+    }
+
+    async function scanImageForKeywords(imageUrl) {
+        showTypingIndicator();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        Tesseract.recognize(imageUrl, 'eng', { logger: m => console.log(m) })
+            .then(({ data: { text } }) => {
+                hideTypingIndicator();
+                const detected = text.toLowerCase();
+                let found = [];
+                for (const key in ayurvedaKeywords) {
+                    if (detected.includes(key)) {
+                        found.push(`<strong>${key}</strong>: ${ayurvedaKeywords[key]}`);
+                    }
+                }
+                if (found.length > 0) {
+                    appendMessage(`Detected:<br>${found.join('<br><br>')}`, 'bot');
+                } else {
+                    appendMessage("No known herb detected. Try clearer image or type it manually.", "bot");
+                }
+            })
+            .catch(err => {
+                hideTypingIndicator();
+                appendMessage("Error scanning image.", "bot");
+                console.error(err);
+            });
+    }
+
+    function appendMessage(text, sender) {
+        const msg = document.createElement('div');
+        msg.classList.add('message', sender);
+        msg.innerHTML = text;
+        chatMessages.appendChild(msg);
+        scrollToBottom();
+    }
+    function appendImageMessage(imageUrl, sender) {
+        const msg = document.createElement('div');
+        msg.classList.add('message', sender, 'image-only');
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        msg.appendChild(img);
+        chatMessages.appendChild(msg);
+        scrollToBottom();
+    }
+    function showTypingIndicator() {
+        typingIndicator.style.display = 'block';
+        scrollToBottom();
+    }
+    function hideTypingIndicator() {
+        typingIndicator.style.display = 'none';
+    }
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    loadChatHistory();
+    startNewChat();
+});
+    </script>
+</body>
+</html>
