@@ -1,377 +1,425 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Herbsmith | Interactive Wellness Map</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        /* Embedded CSS - Consistent with your original code */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f7f2; /* Off-white, calming background */
-        }
-        /* Custom class for the primary brand color (Earthy Green) */
-        .brand-green {
-            background-color: #4a772f;
-        }
-        .text-brand-green {
-            color: #4a772f;
-        }
-        .border-brand-green {
-            border-color: #4a772f;
-        }
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f7f7f2;
+      }
 
-        /* Styles for the interactive body map hotspots */
-        .hotspot {
-            position: absolute;
-            width: 40px; /* Base size */
-            height: 40px;
-            border-radius: 50%;
-            background-color: #4a772f; /* Brand Green */
-            opacity: 0.8;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(74, 119, 47, 0.5); /* Subtle glow */
-            z-index: 10; /* Above the body image */
-        }
+      .brand-green {
+        background-color: #4a772f;
+      }
+      .text-brand-green {
+        color: #4a772f;
+      }
 
-        .hotspot:hover {
-            opacity: 1;
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(74, 119, 47, 0.8);
-        }
+      /* --------------------------------------------------------
+         HOTSPOT LINE + CIRCLE SYSTEM
+      ---------------------------------------------------------*/
+      .hotspot-wrapper {
+        position: absolute;
+        width: 140px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        z-index: 10;
+      }
 
-        .hotspot.active {
-            outline: 4px solid #f7f7f2; /* Light ring when active */
-            transform: scale(1.2);
-            opacity: 1;
-        }
-        
-        /* Specific positioning for the hotspots (adjust these based on the actual image used) */
-        #hotspot-hair { top: 5%; left: 50%; transform: translate(-50%, 0); }
-        #hotspot-oral { top: 15%; left: 45%; transform: translate(-50%, 0); }
-        #hotspot-skin { top: 30%; left: 65%; transform: translate(-50%, 0); }
-        #hotspot-digestive { top: 55%; left: 45%; transform: translate(-50%, 0); }
-        #hotspot-joints { top: 80%; left: 60%; transform: translate(-50%, 0); }
+      /* line pointing left */
+      .line-left {
+        flex-grow: 1;
+        height: 2px;
+        background-color: #4a772f;
+        margin-left: 8px;
+      }
 
-        /* Custom animation for content fade-in */
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
+      /* line pointing right */
+      .line-right {
+        flex-grow: 1;
+        height: 2px;
+        background-color: #4a772f;
+        margin-right: 8px;
+      }
+
+      /* circle number */
+      .hotspot {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #4a772f;
+        opacity: 0.85;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(74, 119, 47, 0.5);
+      }
+      .hotspot:hover {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      .hotspot.active {
+        outline: 4px solid #f7f7f2;
+        transform: scale(1.2);
+      }
+
+      /* --------------------------------------------------------
+         FIXED POINT POSITIONS
+      ---------------------------------------------------------*/
+
+      /* hair – top center, pointing RIGHT */
+      #hs-hair {
+        top: 1%;
+        left: 50%;
+        flex-direction: row;
+      }
+
+      /* oral – face area, pointing RIGHT */
+      #hs-oral {
+        top: 10%;
+        left: 12%;
+        flex-direction: row-reverse;
+      }
+
+      /* skin – upper right arm */
+      #hs-skin {
+        top: 8%;
+        left: 56%;
+        flex-direction: row;
+      }
+
+      /* digestive – stomach/navel area, pointing LEFT */
+      #hs-digestive {
+        top: 41%;
+        left: 15%;
+        flex-direction: row-reverse;
+      }
+
+      /* joints – knee area, pointing RIGHT */
+      #hs-joints {
+        top: 70%;
+        left: 61%;
+        flex-direction: row;
+      }
+
+      /* fade animation */
+      .fade-in {
+        animation: fadeIn 0.5s ease-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
+      }
     </style>
-</head>
-<body>
+  </head>
 
+  <body>
     <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex-shrink-0">
-                    <a href="#" class="text-3xl font-extrabold text-brand-green tracking-tighter">Herbsmith.</a>
-                    <p class="text-xs text-gray-500 uppercase tracking-widest">Natural Wellness</p>
-                </div>
-                
-                <nav class="hidden md:flex space-x-8">
-                    <a href="#home" class="text-gray-600 hover:text-brand-green transition duration-300 font-medium">Home</a>
-                    <a href="#map-section" class="text-brand-green font-bold">Wellness Map</a>
-                    <a href="#shop" class="text-gray-600 hover:text-brand-green transition duration-300 font-medium">Shop</a>
-                    <a href="#contact" class="text-gray-600 hover:text-brand-green transition duration-300 font-medium">Contact</a>
-                </nav>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <div>
+            <a class="text-3xl font-extrabold text-brand-green">HerbzSmith.</a>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">
+              Natural Wellness
+            </p>
+          </div>
 
-                <button class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 transition duration-300">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
-            </div>
+          <nav class="hidden md:flex space-x-8">
+            <a
+              href="index.html"
+              class="text-gray-600 hover:text-brand-green"
+              >Home</a
+            >
+            <a class="text-brand-green font-bold">Wellness Map</a>
+            <a class="text-gray-600 hover:text-brand-green">Shop</a>
+            <a class="text-gray-600 hover:text-brand-green">Contact</a>
+          </nav>
         </div>
+      </div>
     </header>
-    
+
     <main>
-        <section id="map-section" class="py-16 md:py-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h1 class="text-5xl font-extrabold text-gray-900">Your <span class="text-brand-green">Holistic</span> Wellness Map</h1>
-                    <p class="mt-4 text-xl text-gray-600">Click on a body area to explore common concerns and natural remedies.</p>
-                </div>
+      <section id="map-section" class="py-16 md:py-24">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="text-center mb-12">
+            <h1 class="text-5xl font-extrabold">
+              Your <span class="text-brand-green">Holistic</span> Wellness Map
+            </h1>
+            <p class="mt-4 text-xl text-gray-600">
+              Click a body point to explore help & remedies.
+            </p>
+          </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
-                    
-                    <div class="md:col-span-2 relative max-w-sm mx-auto p-4 bg-white rounded-xl shadow-2xl">
-                        <img id="body-silhouette" src="https://w7.pngwing.com/pngs/219/731/png-transparent-human-body-organ-homo-sapiens-anatomy-human-skin-body-miscellaneous-hand-human-thumbnail.png" alt="Interactive Human Body Map" class="w-full h-auto object-contain rounded-lg border border-gray-200">
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
+            <div
+              class="md:col-span-2 relative max-w-sm mx-auto p-4 bg-white rounded-xl shadow-2xl"
+            >
+              <img
+                src="https://w7.pngwing.com/pngs/219/731/png-transparent-human-body-organ-homo-sapiens-anatomy-human-skin-body-miscellaneous-hand-human-thumbnail.png"
+                class="w-full rounded-lg border border-gray-200"
+              />
 
-                        <div id="hotspot-hair" class="hotspot" data-area="hair">1</div>
-                        <div id="hotspot-oral" class="hotspot" data-area="oral">2</div>
-                        <div id="hotspot-skin" class="hotspot" data-area="skin">3</div>
-                        <div id="hotspot-digestive" class="hotspot" data-area="digestive">4</div>
-                        <div id="hotspot-joints" class="hotspot" data-area="joints">5</div>
-                    </div>
-                    
-                    <div class="md:col-span-3">
-                        <div id="content-display" class="bg-white p-8 rounded-xl shadow-2xl min-h-[500px]">
-                            <h2 class="text-3xl font-bold text-gray-900 mb-4" id="content-title">
-                                Select an Area to Begin
-                            </h2>
-                            <div id="content-cards" class="mt-8">
-                                <p class="text-gray-600 text-lg">
-                                    Click on one of the numbered points on the body map to the left (e.g., Hair, Oral, Digestive) to learn about related wellness challenges and discover which Herbsmith products or consultations can help.
-                                </p>
-                            </div>
-                            
-                            </div>
-                    </div>
-                </div>
+              <div class="hotspot-wrapper" id="hs-hair">
+                <div class="line-right"></div>
+                <div class="hotspot" data-area="hair">1</div>
+              </div>
+
+              <div class="hotspot-wrapper" id="hs-oral">
+                <div class="line-left"></div>
+                <div class="hotspot" data-area="oral">2</div>
+              </div>
+
+              <div class="hotspot-wrapper" id="hs-skin">
+                <div class="line-right"></div>
+                <div class="hotspot" data-area="skin">3</div>
+              </div>
+
+              <div class="hotspot-wrapper" id="hs-digestive">
+                <div class="line-left"></div>
+                <div class="hotspot" data-area="digestive">4</div>
+              </div>
+
+              <div class="hotspot-wrapper" id="hs-joints">
+                <div class="line-right"></div>
+                <div class="hotspot" data-area="joints">5</div>
+              </div>
             </div>
-        </section>
 
-        <section id="shop-preview" class="py-16 md:py-24 bg-gray-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-4xl font-extrabold text-gray-900">Featured Remedies</h2>
-                <p class="mt-4 text-xl text-gray-600">Solutions for balanced health.</p>
-
-                <div class="mt-12 flex justify-center space-x-6">
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-xs p-4">
-                        <img src="https://placehold.co/300x300/a7b99c/4a772f?text=HERBAL+OIL" alt="Hair Oil Product" class="w-full h-auto rounded-lg">
-                        <div class="p-4 text-center">
-                            <h3 class="text-lg font-semibold text-gray-900 mt-2">Shine & Strength Hair Oil</h3>
-                            <p class="text-sm text-gray-500">Brahmi & Amla</p>
-                            <a href="#shop" class="mt-4 inline-block text-brand-green font-medium hover:underline">View Product &rarr;</a>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-xs p-4">
-                        <img src="https://placehold.co/300x300/d9d4c1/4a772f?text=SKIN+CREAM" alt="Skin Cream Product" class="w-full h-auto rounded-lg">
-                        <div class="p-4 text-center">
-                            <h3 class="text-lg font-semibold text-gray-900 mt-2">Calm Comfort Skin Balm</h3>
-                            <p class="text-sm text-gray-500">Calendula & Turmeric</p>
-                            <a href="#shop" class="mt-4 inline-block text-brand-green font-medium hover:underline">View Product &rarr;</a>
-                        </div>
-                    </div>
+            <div class="md:col-span-3">
+              <div
+                id="content-display"
+                class="bg-white p-8 rounded-xl shadow-2xl min-h-[500px]"
+              >
+                <h2 id="content-title" class="text-3xl font-bold mb-4">
+                  Select an Area to Begin
+                </h2>
+                <div id="content-cards" class="mt-8 text-gray-600 text-lg">
+                  Click any numbered point on the body map to explore wellness
+                  guides and remedies.
                 </div>
+              </div>
             </div>
-        </section>
-
+          </div>
+        </div>
+      </section>
     </main>
-    
-    <footer class="bg-gray-800 text-white py-12 text-center">
-        <p class="text-sm text-gray-500">
-            &copy; 2025 Herbsmith. All rights reserved. | <a href="#" class="hover:text-brand-green">Privacy Policy</a>
-        </p>
-    </footer>
 
     <script>
-        const contentDisplay = document.getElementById('content-display');
-        const contentTitle = document.getElementById('content-title');
-        const contentCards = document.getElementById('content-cards'); 
-        // const contentCta = document.getElementById('content-cta'); // REMOVED
-        const hotspots = document.querySelectorAll('.hotspot');
+      const contentDisplay = document.getElementById("content-display");
+      const contentTitle = document.getElementById("content-title");
+      const contentCards = document.getElementById("content-cards");
+      const hotspots = document.querySelectorAll(".hotspot");
 
-        // Data structure (cta_link and cta_text are no longer needed)
-        const areaContent = {
-            hair: {
-                title: 'Hair & Scalp Health 🌱',
-                cards: [
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/c7d3b7/4a772f?text=HAIR+LOSS',
-                        cardTitle: 'Understanding Hair Loss',
-                        cardText: 'Ayurveda connects hair fall to Pitta imbalance (excess heat) and poor scalp nourishment.',
-                        link: '#',
-                        linkText: 'Learn More'
-                    },
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/d9d4c1/4a772f?text=HERBAL+SHAMPOO',
-                        cardTitle: 'Herbal Solutions',
-                        cardText: 'Natural washes with Bhringraj, Shikakai, and Amla strengthen roots & promote growth.',
-                        link: '#',
-                        linkText: 'Explore Herbs'
-                    },
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/a7b99c/4a772f?text=HAIR+OIL',
-                        cardTitle: 'Recommended Product',
-                        cardText: 'Our "Shine & Strength Hair Oil" deeply nourishes and balances the scalp for strong hair.',
-                        link: '#shop',
-                        linkText: 'Shop Hair Oil'
-                    }
-                ],
+      const areaContent = {
+        hair: {
+          title: "Hair & Scalp Health 🌱",
+          cards: [
+            {
+              imgSrc:
+                "https://www.mayoclinic.org/-/media/kcms/gbs/patient-consumer/images/2015/03/23/12/59/r7_malebaldness-6col.jpg",
+              cardTitle: "Understanding Hair Loss",
+              cardText:
+                "Excess heat, weak roots, and stress trigger hair fall. Ayurveda strengthens and cools the scalp.",
+              link: "./hairloss.html",
+              linkText: "Learn More",
             },
-            oral: {
-                title: 'Oral & Digestive Start 🦷',
-                cards: [
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/c7d3b7/4a772f?text=BAD+BREATH',
-                        cardTitle: 'Oral Detox Needs',
-                        cardText: 'Issues like bad breath often signal Ama (toxin) build-up or Pitta imbalance in the gut.',
-                        link: '#',
-                        linkText: 'Read About Ama'
-                    },
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/d9d4c1/4a772f?text=NEEM+TOOTHPASTE',
-                        cardTitle: 'Ancient Oral Care',
-                        cardText: 'Neem and Clove are powerful antibacterials, key for gum health and fresh breath.',
-                        link: '#',
-                        linkText: 'Herbal Guide'
-                    },
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/a7b99c/4a772f?text=OIL+PULLING',
-                        cardTitle: 'Daily Oral Ritual',
-                        cardText: 'Our "Oral Detox Powder" cleanses naturally, supporting holistic dental and digestive health.',
-                        link: '#shop',
-                        linkText: 'Shop Oral Detox'
-                    }
-                ],
+            {
+              imgSrc:
+                "https://wimpoleclinic.com/wp-content/uploads/2023/05/fungal-dandruff-seborrheic-dermatitis.jpg",
+              cardTitle: "Understanding Hair Dandruff",
+              cardText:
+                "Dry or irritated scalp causes flakes. Herbal cleansers restore balance.",
+              link: "./hairdandruff.html",
+              linkText: "Learn More",
             },
-            skin: {
-                title: 'Skin Wellness ✨',
-                cards: [
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/c7d3b7/4a772f?text=SKIN+RASHES',
-                        cardTitle: 'Skin & Blood Purity',
-                        cardText: 'Rashes, acne, and dryness can stem from impure blood or aggravated Pitta (heat).',
-                        link: '#',
-                        linkText: 'About Pitta'
-                    },
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/d9d4c1/4a772f?text=TURMERIC+MASK',
-                        cardTitle: 'Cooling Herbs',
-                        cardText: 'Turmeric, Manjistha, and Aloe Vera are vital for soothing inflammation and detoxifying.',
-                        link: '#',
-                        linkText: 'Discover Herbs'
-                    },
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/a7b99c/4a772f?text=SKIN+BALM',
-                        cardTitle: 'Protective Balm',
-                        cardText: 'Our "Calm Comfort Skin Balm" offers gentle, natural relief and protection for sensitive skin.',
-                        link: '#shop',
-                        linkText: 'Shop Skin Balm'
-                    }
-                ],
+            {
+              imgSrc:
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmGy3Y5R5vFy2QhE7_yt5uBptiivYMmLgxiw&s",
+              cardTitle: "Understanding Hair Dryness",
+              cardText:
+                "Moisture loss leads to dull, fragile hair. Ayurveda replenishes hydration.",
+              link: "./hairdry.html",
+              linkText: "Learn More",
             },
-            digestive: {
-                title: 'Digestive Harmony 🍎',
-                cards: [
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/c7d3b7/4a772f?text=BLOATING',
-                        cardTitle: 'Weak Agni Signs',
-                        cardText: 'Bloating, constipation, and acidity are classic symptoms of a weak digestive fire (Agni).',
-                        link: '#',
-                        linkText: 'Boost Your Agni'
-                    },
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/d9d4c1/4a772f?text=TRIPHALA',
-                        cardTitle: 'Gut Cleansers',
-                        cardText: 'Triphala gently cleanses; Ginger and Cumin powerfully ignite Agni for better digestion.',
-                        link: '#',
-                        linkText: 'Learn Triphala'
-                    },
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/a7b99c/4a772f?text=GUT+BITTERS',
-                        cardTitle: 'Digestive Support',
-                        cardText: 'Our "Gut Harmony Bitters" aid digestion, reduce discomfort, and improve nutrient absorption.',
-                        link: '#shop',
-                        linkText: 'Shop Gut Bitters'
-                    }
-                ],
-            },
-            joints: {
-                title: 'Joint & Mobility Support 🦴',
-                cards: [
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/c7d3b7/4a772f?text=JOINT+PAIN',
-                        cardTitle: 'Vata & Ama Impact',
-                        cardText: 'Stiffness and pain often arise from Vata dryness or toxin (Ama) accumulation in joints.',
-                        link: '#',
-                        linkText: 'Vata & Joints'
-                    },
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/d9d4c1/4a772f?text=ASHWAGANDHA',
-                        cardTitle: 'Herbs for Mobility',
-                        cardText: 'Ashwagandha and Guggul are key for lubrication, reducing inflammation, and tissue strength.',
-                        link: '#',
-                        linkText: 'Healing Herbs'
-                    },
-                    { 
-                        imgSrc: 'https://placehold.co/300x200/a7b99c/4a772f?text=JOINT+BALM',
-                        cardTitle: 'Comfort & Relief',
-                        cardText: 'Explore our specialized "Joint Support Blend" for natural comfort and improved flexibility.',
-                        link: '#shop',
-                        linkText: 'Shop Joint Support'
-                    }
-                ],
-            },
-        };
+          ],
+        },
 
-        // Function to generate the feature card HTML with a 2-column grid for better text display
-        function generateFeatureCards(cards) {
-            return `
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    ${cards.map(card => `
-                        <div class="bg-gray-50 rounded-xl shadow-lg border border-gray-100 p-4 flex flex-col items-center text-center transition duration-300 hover:shadow-xl">
-                            <img src="${card.imgSrc}" alt="${card.cardTitle}" class="w-full h-auto rounded-lg mb-4 object-cover aspect-video">
-                            <div class="p-2 w-full">
-                                <h3 class="text-lg font-semibold text-gray-900 mt-2">${card.cardTitle}</h3>
-                                <p class="text-sm text-gray-600 mt-1">${card.cardText}</p>
-                                <a href="${card.link}" class="mt-4 inline-block text-brand-green font-medium hover:underline transition duration-300">
-                                    ${card.linkText} &rarr;
-                                </a>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
+        oral: {
+          title: "Oral & Digestive Start 🦷",
+          cards: [
+            {
+              imgSrc:
+                "https://placehold.co/300x200/c7d3b7/4a772f?text=BAD+BREATH",
+              cardTitle: "Oral Detox Needs",
+              cardText:
+                "Bad breath often signals gut imbalance or Ama buildup.",
+              link: "./oraldetox.html",
+              linkText: "Read More",
+            },
+            {
+              imgSrc:
+                "https://placehold.co/300x200/d9d4c1/4a772f?text=NEEM+TOOTHPASTE",
+              cardTitle: "Ancient Oral Care",
+              cardText: "Neem & Clove purify gums and freshen breath.",
+              link: "./ancientoral.html",
+              linkText: "Explore",
+            },
+            {
+              imgSrc:
+                "https://placehold.co/300x200/d9d4c1/4a772f?text=NEEM+TOOTHPASTE",
+              cardTitle: "Ancient Oral Care",
+              cardText: "Neem & Clove purify gums and freshen breath.",
+              link: "#",
+              linkText: "Explore",
+            },
+          ],
+        },
 
-        // Function to update the content area
-        function updateContent(area) {
-            const data = areaContent[area];
-            
-            // 1. Remove the old content's fade-in class
-            contentDisplay.classList.remove('fade-in');
-            
-            // 2. Wait for a tiny moment before adding the class back to ensure re-trigger
-            setTimeout(() => {
-                
-                // Update Title
-                contentTitle.innerHTML = data.title;
-                
-                // Update Cards
-                contentCards.innerHTML = generateFeatureCards(data.cards);
-                
-                // The contentCta update logic is entirely removed, as requested
-                // No contentCta.innerHTML update is performed here.
+        skin: {
+          title: "Skin Wellness ✨",
+          cards: [
+            {
+              imgSrc:
+                "https://placehold.co/300x200/c7d3b7/4a772f?text=SKIN+RASHES",
+              cardTitle: "Pimples & Acne",
+              cardText: "Rashes & acne often arise from Pitta imbalance.",
+              link: "#",
+              linkText: "Learn More",
+            },
+            {
+              imgSrc:
+                "https://placehold.co/300x200/c7d3b7/4a772f?text=SKIN+RASHES",
+              cardTitle: "Dark Circles",
+              cardText: "Rashes & acne often arise from Pitta imbalance.",
+              link: "#",
+              linkText: "Learn More",
+            },
+            {
+              imgSrc:
+                "https://placehold.co/300x200/c7d3b7/4a772f?text=SKIN+RASHES",
+              cardTitle: "Pigmentation",
+              cardText: "Rashes & acne often arise from Pitta imbalance.",
+              link: "#",
+              linkText: "Learn More",
+            },
+          ],
+        },
 
-                // Add fade-in class
-                contentDisplay.classList.add('fade-in');
-            }, 50);
-        }
+        digestive: {
+          title: "Digestive Harmony 🍎",
+          cards: [
+            {
+              imgSrc:
+                "https://placehold.co/300x200/c7d3b7/4a772f?text=BLOATING",
+              cardTitle: "Weak Agni Signs",
+              cardText: "Bloating & constipation signal low digestive fire.",
+              link: "#",
+              linkText: "Boost Agni",
+            },
+            {
+              imgSrc:
+                "https://placehold.co/300x200/d9d4c1/4a772f?text=NEEM+TOOTHPASTE",
+              cardTitle: "Ancient Oral Care",
+              cardText: "Neem & Clove purify gums and freshen breath.",
+              link: "#",
+              linkText: "Explore",
+            },
+            {
+              imgSrc:
+                "https://placehold.co/300x200/d9d4c1/4a772f?text=NEEM+TOOTHPASTE",
+              cardTitle: "Ancient Oral Care",
+              cardText: "Neem & Clove purify gums and freshen breath.",
+              link: "#",
+              linkText: "Explore",
+            },
+          ],
+        },
 
-        // Add click event listeners to all hotspots
-        hotspots.forEach(hotspot => {
-            hotspot.addEventListener('click', () => {
-                const area = hotspot.getAttribute('data-area');
-                
-                // Remove 'active' class from all hotspots
-                hotspots.forEach(h => h.classList.remove('active'));
-                
-                // Add 'active' class to the clicked hotspot
-                hotspot.classList.add('active');
-                
-                // Update the content display
-                updateContent(area);
-            });
+        joints: {
+          title: "Joint & Mobility Support 🦴",
+          cards: [
+            {
+              imgSrc:
+                "https://placehold.co/300x200/c7d3b7/4a772f?text=JOINT+PAIN",
+              cardTitle: "Vata & Ama Impact",
+              cardText: "Dryness & toxin accumulation cause stiffness.",
+              link: "#",
+              linkText: "Learn More",
+            },
+            {
+              imgSrc:
+                "https://placehold.co/300x200/d9d4c1/4a772f?text=NEEM+TOOTHPASTE",
+              cardTitle: "Ancient Oral Care",
+              cardText: "Neem & Clove purify gums and freshen breath.",
+              link: "#",
+              linkText: "Explore",
+            },
+            {
+              imgSrc:
+                "https://placehold.co/300x200/d9d4c1/4a772f?text=NEEM+TOOTHPASTE",
+              cardTitle: "Ancient Oral Care",
+              cardText: "Neem & Clove purify gums and freshen breath.",
+              link: "#",
+              linkText: "Explore",
+            },
+          ],
+        },
+      };
+
+      function generateFeatureCards(cards) {
+        return `
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            ${cards
+              .map(
+                (card) => `
+              <div class="bg-gray-50 p-4 rounded-xl shadow-lg text-center">
+                <img src="${card.imgSrc}" class="rounded-lg mb-4 w-full h-40 object-cover" />
+                <h3 class="text-lg font-semibold">${card.cardTitle}</h3>
+                <p class="text-sm text-gray-600 mt-1">${card.cardText}</p>
+                <a href="${card.link}" class="mt-4 inline-block text-brand-green font-medium hover:underline">${card.linkText} →</a>
+              </div>
+            `
+              )
+              .join("")}
+          </div>`;
+      }
+
+      function updateContent(area) {
+        const data = areaContent[area];
+        contentDisplay.classList.remove("fade-in");
+
+        setTimeout(() => {
+          contentTitle.innerHTML = data.title;
+          contentCards.innerHTML = generateFeatureCards(data.cards);
+          contentDisplay.classList.add("fade-in");
+        }, 50);
+      }
+
+      hotspots.forEach((hotspot) => {
+        hotspot.addEventListener("click", () => {
+          hotspots.forEach((h) => h.classList.remove("active"));
+          hotspot.classList.add("active");
+
+          const area = hotspot.getAttribute("data-area");
+          updateContent(area);
         });
-        
-        // Initial state: Click on 'hair' on load
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('hotspot-hair').click();
-        });
+      });
     </script>
-</body>
+  </body>
 </html>
