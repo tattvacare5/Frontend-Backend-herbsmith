@@ -1,1 +1,539 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herbsmith | Natural Wellness and Herbal Remedies</title>
+    <!-- Load Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Internal CSS Block (Containing 'easy' classes and global styles) -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        /* Updated: Main body uses the cream color */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcf7e6; /* Warm Cream Background */
+        }
+
+        /* --- Custom 'easy' Classes for Brand Styling (Updated to Dark Green) --- */
+        .easy-text { color: #1e4034; }
+        .easy-bg { background-color: #1e4034; }
+        .easy a:hover,
+        .easy-link-hover:hover { color: #1e4034 !important; }
+        .easy-outline {
+            border-color: #1e4034;
+            color: #1e4034;
+            transition: background-color 300ms, color 300ms;
+        }
+        .easy-outline:hover {
+            background-color: #1e4034;
+            color: white;
+        }
+        /* Adjusted focus style for better contrast against the cream/white backgrounds */
+        .easy-form-focus:focus {
+            --tw-ring-color: #1e4034;
+            --tw-border-color: #1e4034;
+        }
+        .easy-link-border { border-color: #1e4034; }
+
+        /* --- Scroll Animations (Applied to sections/cards) --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Lazy Loading Image Transition --- */
+        .lazy-image {
+            background-color: #e0e0d0; /* Soft gray placeholder */
+            opacity: 0;
+            transition: opacity 0.6s ease-in;
+        }
+        .lazy-image.loaded {
+            opacity: 1;
+        }
+
+        /* --- Floating Leaves Background CSS --- */
+        #leaf-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1; /* Behind everything */
+            opacity: 0.3; /* Subtle */
+        }
+
+        .leaf {
+            position: absolute;
+            /* Using a light sage color for the leaves */
+            color: #a7b99c; 
+            font-size: 24px;
+            animation: fall linear infinite;
+            z-index: 10;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-5vh) translateX(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(105vh) translateX(200px) rotate(720deg); /* 200px horizontal drift */
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="easy">
+    
+    <!-- Floating Leaves Container -->
+    <div id="leaf-container"></div>
+
+    <!-- Header and Navigation (HTML) -->
+    <header class="bg-[#f7f4ec] shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo/Brand Name -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-3xl font-extrabold tracking-tighter easy-text">HerbzSmith.</a>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest">Natural Wellness</p>
+                </div>
+                
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-600 easy-link-hover transition duration-300 font-medium">Home</a>
+                    <a href="#about" class="text-gray-600 easy-link-hover transition duration-300 font-medium">About Us</a>
+                    <a href="#shop" class="text-gray-600 easy-link-hover transition duration-300 font-medium">Shop</a>
+                    
+                    <a href="#contact" class="text-gray-600 easy-link-hover transition duration-300 font-medium">Contact</a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 transition duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#f7f4ec] border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
+                <a href="#home" class="text-gray-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium easy-link-hover">Home</a>
+                <a href="#about" class="text-gray-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium easy-link-hover">About Us</a>
+                <a href="#shop" class="text-gray-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium easy-link-hover">Why us</a>
+                <a href="#services" class="text-gray-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium easy-link-hover">Consulting</a>
+                <a href="#contact" class="text-gray-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium easy-link-hover">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section (Home) -->
+        <section id="home" class="relative overflow-hidden pt-32 pb-32 md:pt-48 md:pb-48 bg-gray-100/50">
+            <!-- Background Image Placeholder (Updated to complement the green/cream theme) -->
+            <div class="absolute inset-0 bg-cover bg-center opacity-70" style="background-image: url(https://img.freepik.com/premium-photo/ayurveda-india-symbol-indian-background-theme_1279562-5309.jpg);"></div>
+            
+            <!-- Content -->
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center backdrop-blur-sm bg-white/70 p-6 rounded-xl shadow-2xl max-w-3xl animate-on-scroll is-visible">
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-4 easy-text">
+                    The Art of Natural Healing
+                </h1>
+                <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-700">
+                    Discover personalized herbal remedies and holistic wellness guidance crafted for your unique journey.
+                </p>
+                <div class="mt-8 flex justify-center space-x-4">
+                    <!-- Button 1 uses easy-bg (Dark Green) -->
+                    <button class="text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-opacity-90 transition duration-300 transform hover:scale-105 easy-bg">
+                        <a href="TatvaAi.html">Use our AI Tool</a> 
+                    </button>
+                    <!-- Button 2 uses easy-outline (Dark Green outline) -->
+                    <button class="bg-transparent border font-semibold py-3 px-8 rounded-full easy-outline">
+                        Know more
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section - Inherits cream body background -->
+        <section id="about" class="py-16 md:py-24 bg-transparent animate-on-scroll">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
+                <!-- Image/Placeholder - Lazy Loaded -->
+                <div class="rounded-xl overflow-hidden shadow-2xl transform hover:scale-[1.01] transition duration-500">
+                    <img data-src="https://theherbalacademy.com/wp-content/uploads/2015/03/Building-Relationships-with-Plants-Herbs-Work-as-our-Companions.png" alt="A person working with herbs" class="w-full h-auto object-cover lazy-image">
+                </div>
+                <!-- Text Content -->
+                <div class="text-gray-700">
+                    <span class="text-sm font-semibold uppercase tracking-widest easy-text">Our Mission</span>
+                    <h2 class="mt-2 text-4xl font-extrabold text-gray-900 sm:text-5xl">
+                        Rooted in Tradition, Guided by Science
+                    </h2>
+                    <p class="mt-6 text-lg leading-relaxed">
+                        At Herbsmith, we believe true wellness comes from harmony with nature. We combine ancient herbal wisdom with modern scientific understanding to create potent, safe, and personalized solutions. We source only the highest quality, sustainably harvested botanicals.
+                    </p>
+                    <p class="mt-4 text-lg leading-relaxed">
+                        Every formula is handcrafted with intention, aiming not just to treat symptoms, but to nurture your body's inherent ability to heal. We are committed to transparency, purity, and empowering you to take control of your health journey.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services/Value Proposition Section - Using secondary cream background -->
+        <section id="services" class="py-16 md:py-24 bg-[#f7f4ec]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center animate-on-scroll">
+                    <h2 class="text-4xl font-extrabold text-gray-900">What We Offer</h2>
+                    <p class="mt-4 text-xl text-gray-600">From personalized blends to deep dive consultations, find your path to vitality.</p>
+                </div>
+
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Service Card 1 -->
+                    <div class="bg-white p-8 rounded-xl shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1 animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="mb-4 easy-text">
+                            <!-- Icon Placeholder -->
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 005 12c0 1.25.13 2.47.37 3.65l.77-1.16a2 2 0 013.62 0l.77 1.16C16.87 14.47 18 13.25 18 12c0-1.25-.13-2.47-.37-3.65z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-900">Tatva AI</h3>
+                        <p class="mt-3 text-gray-600">Not sure if your product truly fits your Ayurvedic lifestyle?
+Just scan the label, and our AI will tell you the pros, cons, and better natural options — all in seconds!</p>
+                        <a href="TatvaAi.html" class="mt-4 inline-block font-medium hover:underline easy-text">Learn More &rarr;</a>
+                    </div>
+                    
+                    <!-- Service Card 2 -->
+                    <div class="bg-white p-8 rounded-xl shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1 animate-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="mb-4 easy-text">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354c.319-.319.756-.479 1.192-.479H20.5a2.5 2.5 0 012.5 2.5V20.5a2.5 2.5 0 01-2.5 2.5H12a2.5 2.5 0 01-2.5-2.5V6.854c.436.007.873.167 1.192.479z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-900">Wellness Map</h3>
+                        <p class="mt-3 text-gray-600">Explore our Wellness Map — choose your concern, and discover authentic Ayurvedic solutions designed to restore balance.
+Replace chemical-based products with pure, natural alternatives crafted for your well-being.</p>
+                        <a href="wellness.html" class="mt-4 inline-block font-medium hover:underline easy-text"> Wellness Map &rarr;</a>
+                    </div>
+
+                    <!-- Service Card 3 -->
+                    <div class="bg-white p-8 rounded-xl shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-1 animate-on-scroll" style="transition-delay: 0.6s;">
+                        <div class="mb-4 easy-text">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-900">Lifestyle Products</h3>
+                        <p class="mt-3 text-gray-600">Soon we are gonna launch our products</p>
+                        <a href="#" class="mt-4 inline-block font-medium hover:underline easy-text">See products &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product/Shop Preview Section - Using white/light background for card contrast -->
+   <section id="shop" class="py-16 md:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center animate-on-scroll">
+            <h2 class="text-4xl font-extrabold text-gray-900">Why Herbsmith?</h2>
+            <p class="mt-4 text-xl text-gray-600">Our core differentiators in the wellness market.</p>
+        </div>
+
+        <div class="mt-16 grid md:grid-cols-2 gap-12 items-center bg-[#f7f4ec] p-10 rounded-2xl shadow-xl animate-on-scroll" style="transition-delay: 0.1s;">
+            
+            <div>
+                <h3 class="text-3xl font-bold text-gray-900 mb-6 easy-text">Replacing Chemicals with Ayurveda.</h3>
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                    We bridge the gap between ancient **Ayurvedic wisdom** and modern life by offering perfect replacements for daily chemical-based products. Our mission is to seamlessly integrate powerful, natural healing into every customer's life.
+                </p>
+                
+                <ul class="space-y-4 text-gray-700">
+                    <li class="flex items-start space-x-3">
+                        <span class="easy-text font-bold text-xl flex-shrink-0">✓</span>
+                        <p><strong>Smart Sourcing & Purity:</strong> We commit to the highest quality, sustainably harvested botanicals, ensuring every product is potent and clean.</p>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                        <span class="easy-text font-bold text-xl flex-shrink-0">✓</span>
+                        <p><strong>AI-Driven Transparency:</strong> Our **Tatva AI** allows users to scan products for harmful chemicals and provides tailored Ayurvedic alternatives instantly, empowering informed choice.</p>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                        <span class="easy-text font-bold text-xl flex-shrink-0">✓</span>
+                        <p><strong>Personalized Wellness Roadmap:</strong> Beyond products, our smart system suggests a personalized lifestyle plan to restore balance and replace chemical habits, fostering long-term health.</p>
+                    </li>
+                </ul>
+
+                <a href="#about" class="mt-8 inline-block font-semibold py-3 px-8 rounded-full easy-outline text-lg">
+                    Discover Our Process &rarr;
+                </a>
+            </div>
+
+            <div class="relative rounded-xl overflow-hidden shadow-2xl h-full min-h-[300px] transform hover:scale-[1.01] transition duration-500">
+                <img data-src="https://img.freepik.com/free-photo/organic-cosmetic-product-with-dreamy-aesthetic-fresh-background_23-2151382859.jpg?semt=ais_hybrid&w=740&q=80" alt="A collection of Ayurvedic herbs and ingredients" class="w-full h-full object-cover lazy-image loaded" src="https://img.freepik.com/premium-photo/top-view-ayurvedic-herbs-arrangement_23-2150918731.jpg">
+                <div class="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
+                    <h4 class="text-xl font-bold">Holistic, Science-Backed Wellness.</h4>
+                </div>
+            </div>
+
+        </div>
+        <div class="mt-12 text-center">
+            <a href="#" class="inline-flex items-center text-xl font-semibold border-b-2 hover:opacity-80 transition duration-300 easy-text easy-link-border">
+                
+            </a>
+        </div>
+    </div>
+</section>
+               
+
+        <!-- Testimonial Section - Uses easy-bg (Dark Green) -->
+        <section class="py-16 md:py-24 text-white easy-bg animate-on-scroll">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <blockquote class="text-xl md:text-3xl font-light italic leading-relaxed">
+                   हितायुरारोग्यसुखं ददाति, आयुर्वेदो हिताय नित्यम्। ओषधयः शांतिदायकः, प्रकृतिर्वरदानं स्वास्थ्यम्॥
+                </blockquote> 
+                <p class="mt-8 text-lg font-semibold text-gray-200">— It bestows beneficial life, health, and happiness. 
+                     Ayurveda (the Science of Life) is always (eternally) for the welfare (of all).
+                     Herbs (Medicinal plants) are providers of peace/calmness.
+                     Nature is the boon (blessing) for health.
+        </section>
+
+        <!-- Contact Section - UPDATED: Uses two-column layout for visual flair -->
+        <section id="contact" class="py-16 md:py-24 bg-white animate-on-scroll">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-extrabold text-gray-900">Let's Cultivate Wellness</h2>
+                    <p class="mt-4 text-xl text-gray-600">Whether you have a query about herbs or need a deep consultation, reach out to us.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8 items-stretch">
+
+                    <!-- Left Column: Creative Contact Info Block (Dark Green) -->
+                    <div class="easy-bg text-white p-10 rounded-2xl shadow-2xl flex flex-col justify-between transform hover:scale-[1.01] transition duration-500">
+                        <div>
+                            <h3 class="text-3xl font-bold mb-4">Find Your Balance.</h3>
+                            <p class="text-gray-200 mb-8">
+                                We're here to guide you to the purest, most natural version of your health. Send us a message, and let's start the conversation about your well-being journey.
+                            </p>
+
+                            <div class="space-y-6">
+                                <div class="flex items-center space-x-3">
+                                    <!-- Email Icon -->
+                                    <svg class="w-6 h-6 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    <span class="font-medium">info@herbsmith.com</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <!-- Phone Icon -->
+                                    <svg class="w-6 h-6 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                    <span class="font-medium">(555) 123-4567</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <!-- Location Icon -->
+                                    <svg class="w-6 h-6 flex-shrink-0 mt-0.5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    <span class="font-medium">123 Wellness Way, Earth City, CA</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-white/20">
+                            <p class="text-sm text-gray-300">Mon - Fri: 9:00 AM - 5:00 PM</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Form Block (Cream Background) -->
+                    <div class="bg-[#f7f4ec] p-10 rounded-2xl shadow-xl">
+                        <form action="#" method="POST" class="space-y-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-6 easy-text">Send Us a Direct Message</h3>
+                            
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" id="name" name="name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 easy-form-focus ring-offset-2 focus:ring-2">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                <input type="email" id="email" name="email" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 easy-form-focus ring-offset-2 focus:ring-2">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700">How can we help?</label>
+                                <textarea id="message" name="message" rows="5" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 easy-form-focus ring-offset-2 focus:ring-2"></textarea>
+                            </div>
+                            <div>
+                                <!-- Button uses easy-bg (Dark Green) -->
+                                <button type="submit" class="w-full text-white font-semibold py-3 px-4 rounded-full shadow-md hover:bg-opacity-90 transition duration-300 easy-bg transform hover:scale-[1.01]">
+                                    Send Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer - Still using a dark background for contrast, complements the dark green theme -->
+    <footer class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- Brand Info -->
+                <div>
+                    <h4 class="text-xl font-extrabold mb-3 easy-text">Herbsmith.</h4>
+                    <p class="text-sm text-gray-400">Holistic Wellness</p>
+                    <div class="mt-4 flex space-x-4 text-gray-400">
+                        <!-- Social Icons Placeholder -->
+                        <a href="#" aria-label="Facebook" class="easy-link-hover"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0H5C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5zm-3 7h-2v2h2c.55 0 1 .45 1 1v2c0 .55-.45 1-1 1h-2v6h-3V14h-2v-3h2V9c0-1.66 1.34-3 3-3h3V7zm-3 0h-2v2h2V7zm2 5v-2h-2v2h2z"/></svg></a>
+                        <a href="#" aria-label="Instagram" class="easy-link-hover"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 12.5a.5.5 0 01-1 0v-4a.5.5 0 011 0v4zm-3 0a.5.5 0 01-1 0v-4a.5.5 0 011 0v4zm-3 0a.5.5 0 01-1 0v-4a.5.5 0 011 0v4zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8a3 3 0 110-6 3 3 0 010 6z"/></svg></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 text-white">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-400 easy-link-hover transition duration-300">Our Story</a></li>
+                        <li><a href="#shop" class="text-gray-400 easy-link-hover transition duration-300">Shop All</a></li>
+                        <li><a href="#services" class="text-gray-400 easy-link-hover transition duration-300">Appointments</a></li>
+                        <li><a href="#" class="text-gray-400 easy-link-hover transition duration-300">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 text-white">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <!-- Note: Contact info is redundant here but kept for completeness, though primary info is now in the main contact section -->
+                        <li>Email: info@herbsmith.com</li>
+                        <li>Phone: (555) 123-4567</li>
+                        <li>Location: 123 Wellness Way, Earth City, CA</li>
+                    </ul>
+                </div>
+
+                 <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-3 text-white">Newsletter</h4>
+                    <p class="text-sm text-gray-400 mb-3">Get the latest herbal tips and offers.</p>
+                    <form>
+                        <!-- Input uses a standard white background for readability -->
+                        <input type="email" placeholder="Your Email" class="w-full p-2 rounded-t-md text-gray-900 border-none focus:ring-400 easy-form-focus">
+                        <!-- Button uses easy-bg (Dark Green) -->
+                        <button type="submit" class="w-full text-white py-2 rounded-b-md font-semibold hover:bg-opacity-90 transition duration-300 easy-bg">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="mt-12 border-t border-gray-700 pt-8 text-center text-sm text-gray-500">
+                &copy; <span id="current-year"></span> Herbsmith. All rights reserved. | Website designed by AI
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for interactivity -->
+    <script>
+        // Get references to the elements
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const currentYear = document.getElementById('current-year');
+        const leafContainer = document.getElementById('leaf-container');
+
+        // Function to toggle the mobile menu visibility
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // --- Core Application Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+             // 1. Mobile Menu Setup
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', toggleMobileMenu);
+            }
+            if (mobileMenu) {
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+        
+            // 2. Footer Initialization
+            if (currentYear) {
+                currentYear.textContent = new Date().getFullYear();
+            }
+
+            // 3. Lazy Loading & Scroll Animation Logic
+            const lazyImages = document.querySelectorAll('.lazy-image');
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+            // --- A. Image Lazy Loader Observer ---
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        // Load image by swapping data-src to src
+                        img.src = img.dataset.src;
+                        img.onload = () => {
+                             // Add 'loaded' class after the image is fully loaded for the fade transition
+                            img.classList.add('loaded'); 
+                            img.removeAttribute('data-src'); // Clean up
+                        };
+                        observer.unobserve(img);
+                    }
+                });
+            }, { 
+                rootMargin: '100px 0px 100px 0px' 
+            }); 
+
+            lazyImages.forEach(img => {
+                imageObserver.observe(img);
+            });
+
+            // --- B. Section Animation Observer (Fade-Up Effect) ---
+            const animationObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    // Check if the element is visible
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, { 
+                threshold: 0.1, // Trigger when 10% of the element is visible
+                rootMargin: '0px 0px -50px 0px'
+            }); 
+
+            animateElements.forEach(el => {
+                 // Check if it's the hero section which should be visible immediately
+                if (el.id === 'home') {
+                    el.classList.add('is-visible');
+                } else {
+                    animationObserver.observe(el);
+                }
+            });
+
+            // 4. Floating Leaves Generator
+            const leaves = ['🍃', '🌿', '🍂', '🌱'];
+            const numberOfLeaves = 20;
+
+            function getRandom(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            for (let i = 0; i < numberOfLeaves; i++) {
+                const leaf = document.createElement('div');
+                leaf.textContent = leaves[Math.floor(getRandom(0, leaves.length))];
+                leaf.classList.add('leaf');
+                
+                // Set initial random position and speed
+                leaf.style.left = `${getRandom(0, 100)}vw`;
+                leaf.style.animationDuration = `${getRandom(10, 25)}s`; // Slower/faster fall
+                leaf.style.animationDelay = `-${getRandom(0, 25)}s`; // Stagger the start time
+                leaf.style.fontSize = `${getRandom(18, 36)}px`;
+                leaf.style.opacity = `${getRandom(0.3, 0.7)}`;
+
+                leafContainer.appendChild(leaf);
+            }
+        });
+    </script>
+</body>
+</html>
