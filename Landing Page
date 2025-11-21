@@ -104,7 +104,7 @@
             <div class="flex justify-between items-center h-20">
                 <!-- Logo/Brand Name -->
                 <div class="flex-shrink-0">
-                    <a href="#" class="text-3xl font-extrabold tracking-tighter easy-text">Herbsmith.</a>
+                    <a href="#" class="text-3xl font-extrabold tracking-tighter easy-text">HerbzSmith.</a>
                     <p class="text-xs text-gray-500 uppercase tracking-widest">Natural Wellness</p>
                 </div>
                 
@@ -113,7 +113,7 @@
                     <a href="#home" class="text-gray-600 easy-link-hover transition duration-300 font-medium">Home</a>
                     <a href="#about" class="text-gray-600 easy-link-hover transition duration-300 font-medium">About Us</a>
                     <a href="#shop" class="text-gray-600 easy-link-hover transition duration-300 font-medium">Shop</a>
-                    <a href="#services" class="text-gray-600 easy-link-hover transition duration-300 font-medium">Consulting</a>
+                    
                     <a href="#contact" class="text-gray-600 easy-link-hover transition duration-300 font-medium">Contact</a>
                 </nav>
 
@@ -153,7 +153,7 @@
                 <div class="mt-8 flex justify-center space-x-4">
                     <!-- Button 1 uses easy-bg (Dark Green) -->
                     <button class="text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-opacity-90 transition duration-300 transform hover:scale-105 easy-bg">
-                        Use our Ai Tool
+                        <a href="TatvaAi.html">Use our AI Tool</a> 
                     </button>
                     <!-- Button 2 uses easy-outline (Dark Green outline) -->
                     <button class="bg-transparent border font-semibold py-3 px-8 rounded-full easy-outline">
@@ -177,7 +177,7 @@
                         Rooted in Tradition, Guided by Science
                     </h2>
                     <p class="mt-6 text-lg leading-relaxed">
-                        At Herbsmith, we believe true wellness comes from harmony with nature. Our founder, Preetam Korwar, combines ancient herbal wisdom with modern scientific understanding to create potent, safe, and personalized solutions. We source only the highest quality, sustainably harvested botanicals.
+                        At Herbsmith, we believe true wellness comes from harmony with nature. We combine ancient herbal wisdom with modern scientific understanding to create potent, safe, and personalized solutions. We source only the highest quality, sustainably harvested botanicals.
                     </p>
                     <p class="mt-4 text-lg leading-relaxed">
                         Every formula is handcrafted with intention, aiming not just to treat symptoms, but to nurture your body's inherent ability to heal. We are committed to transparency, purity, and empowering you to take control of your health journey.
@@ -204,7 +204,7 @@
                         <h3 class="text-2xl font-semibold text-gray-900">Tatva AI</h3>
                         <p class="mt-3 text-gray-600">Not sure if your product truly fits your Ayurvedic lifestyle?
 Just scan the label, and our AI will tell you the pros, cons, and better natural options — all in seconds!</p>
-                        <a href="./chat.html" class="mt-4 inline-block font-medium hover:underline easy-text">Learn More &rarr;</a>
+                        <a href="TatvaAi.html" class="mt-4 inline-block font-medium hover:underline easy-text">Learn More &rarr;</a>
                     </div>
                     
                     <!-- Service Card 2 -->
@@ -215,7 +215,7 @@ Just scan the label, and our AI will tell you the pros, cons, and better natural
                         <h3 class="text-2xl font-semibold text-gray-900">Wellness Map</h3>
                         <p class="mt-3 text-gray-600">Explore our Wellness Map — choose your concern, and discover authentic Ayurvedic solutions designed to restore balance.
 Replace chemical-based products with pure, natural alternatives crafted for your well-being.</p>
-                        <a href="./well.html" class="mt-4 inline-block font-medium hover:underline easy-text">View Products &rarr;</a>
+                        <a href="wellness.html" class="mt-4 inline-block font-medium hover:underline easy-text"> Wellness Map &rarr;</a>
                     </div>
 
                     <!-- Service Card 3 -->
@@ -223,8 +223,8 @@ Replace chemical-based products with pure, natural alternatives crafted for your
                         <div class="mb-4 easy-text">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         </div>
-                        <h3 class="text-2xl font-semibold text-gray-900">Now will give you healty lifestyle</h3>
-                        <p class="mt-3 text-gray-600">Soon we are gonna laucnh our products</p>
+                        <h3 class="text-2xl font-semibold text-gray-900">Lifestyle Products</h3>
+                        <p class="mt-3 text-gray-600">Soon we are gonna launch our products</p>
                         <a href="#" class="mt-4 inline-block font-medium hover:underline easy-text">See products &rarr;</a>
                     </div>
                 </div>
@@ -232,74 +232,57 @@ Replace chemical-based products with pure, natural alternatives crafted for your
         </section>
 
         <!-- Product/Shop Preview Section - Using white/light background for card contrast -->
-        <section id="shop" class="py-16 md:py-24 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center animate-on-scroll">
-                    <h2 class="text-4xl font-extrabold text-gray-900">Why us?</h2>
-                    <p class="mt-4 text-xl text-gray-600">What makes us diffenent from others</p>
-                </div>
+   <section id="shop" class="py-16 md:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center animate-on-scroll">
+            <h2 class="text-4xl font-extrabold text-gray-900">Why Herbsmith?</h2>
+            <p class="mt-4 text-xl text-gray-600">Our core differentiators in the wellness market.</p>
+        </div>
 
-                <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Product Card 1: Sleep Tincture -->
-                    <div class="bg-[#fcf7e6] p-4 rounded-xl shadow-lg overflow-hidden flex flex-col items-center animate-on-scroll" style="transition-delay: 0.1s;">
-                        <img data-src="https://placehold.co/300x300/c7d3b7/1e4034?text=SLEEP+TINCTURE" alt="Sleep Tincture Product" class="w-full h-auto rounded-lg lazy-image">
-                        <div class="p-4 text-center">
-                            <h3 class="text-lg font-semibold text-gray-900 mt-2">We are here to give you perfect replacement for your daily hospital medicines from ayurveda</h3>
-                            <p class="text-sm text-gray-500">pushing ayurveda into your life</p>
-                            <p class="text-xl font-bold mt-2 easy-text">Replacing chemical with ayurveda</p>
-                            <button class="mt-4 w-full text-white py-2 rounded-full font-semibold text-sm hover:bg-opacity-90 transition duration-300 easy-bg">
-                                know more how
-                            </button>
-                        </div>
-                    </div>
+        <div class="mt-16 grid md:grid-cols-2 gap-12 items-center bg-[#f7f4ec] p-10 rounded-2xl shadow-xl animate-on-scroll" style="transition-delay: 0.1s;">
+            
+            <div>
+                <h3 class="text-3xl font-bold text-gray-900 mb-6 easy-text">Replacing Chemicals with Ayurveda.</h3>
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                    We bridge the gap between ancient **Ayurvedic wisdom** and modern life by offering perfect replacements for daily chemical-based products. Our mission is to seamlessly integrate powerful, natural healing into every customer's life.
+                </p>
+                
+                <ul class="space-y-4 text-gray-700">
+                    <li class="flex items-start space-x-3">
+                        <span class="easy-text font-bold text-xl flex-shrink-0">✓</span>
+                        <p><strong>Smart Sourcing & Purity:</strong> We commit to the highest quality, sustainably harvested botanicals, ensuring every product is potent and clean.</p>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                        <span class="easy-text font-bold text-xl flex-shrink-0">✓</span>
+                        <p><strong>AI-Driven Transparency:</strong> Our **Tatva AI** allows users to scan products for harmful chemicals and provides tailored Ayurvedic alternatives instantly, empowering informed choice.</p>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                        <span class="easy-text font-bold text-xl flex-shrink-0">✓</span>
+                        <p><strong>Personalized Wellness Roadmap:</strong> Beyond products, our smart system suggests a personalized lifestyle plan to restore balance and replace chemical habits, fostering long-term health.</p>
+                    </li>
+                </ul>
 
-                    <!-- Product Card 2: Energy Tea -->
-                    <div class="bg-[#fcf7e6] p-4 rounded-xl shadow-lg overflow-hidden flex flex-col items-center animate-on-scroll" style="transition-delay: 0.3s;">
-                        <img data-src="https://placehold.co/300x300/d9d4c1/1e4034?text=ENERGY+TEA" alt="Energy Tea Product" class="w-full h-auto rounded-lg lazy-image">
-                        <div class="p-4 text-center">
-                            <h3 class="text-lg font-semibold text-gray-900 mt-2"> Now imagine your phone is just scaning the product which you are using and giving you all the harsh chemical present in it which can harm you and can provide you with similar ayurvedic medicine</h3>
-                            <p class="text-sm text-gray-500"> </p>
-                            <p class="text-xl font-bold mt-2 easy-text">now know what you are using</p>
-                            <button class="mt-4 w-full text-white py-2 rounded-full font-semibold text-sm hover:bg-opacity-90 transition duration-300 easy-bg">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
+                <a href="#about" class="mt-8 inline-block font-semibold py-3 px-8 rounded-full easy-outline text-lg">
+                    Discover Our Process &rarr;
+                </a>
+            </div>
 
-                    <!-- Product Card 3: Immunity Balm -->
-                    <div class="bg-[#fcf7e6] p-4 rounded-xl shadow-lg overflow-hidden flex flex-col items-center animate-on-scroll" style="transition-delay: 0.5s;">
-                        <img data-src="https://placehold.co/300x300/a7b99c/1e4034?text=IMMUNITY+BALM" alt="Immunity Balm Product" class="w-full h-auto rounded-lg lazy-image">
-                        <div class="p-4 text-center">
-                            <h3 class="text-lg font-semibold text-gray-900 mt-2">Discover a healthier way to live with Ayurveda.
-Simply share your concern, and our smart Ayurvedic system will suggest the right natural products and a personalized lifestyle plan to replace harmful chemical habits.</h3>
-                            <p class="text-sm text-gray-500"> just follow the Roadmap</p>
-                            <p class="text-xl font-bold mt-2 easy-text"></p>
-                            <button class="mt-4 w-full text-white py-2 rounded-full font-semibold text-sm hover:bg-opacity-90 transition duration-300 easy-bg">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 4: Digestive Bitters -->
-                    <div class="bg-[#fcf7e6] p-4 rounded-xl shadow-lg overflow-hidden flex flex-col items-center animate-on-scroll" style="transition-delay: 0.7s;">
-                        <img data-src="https://placehold.co/300x300/8d947b/1e4034?text=DIGESTIVE+BITTERS" alt="Digestive Bitters Product" class="w-full h-auto rounded-lg lazy-image">
-                        <div class="p-4 text-center">
-                            <h3 class="text-lg font-semibold text-gray-900 mt-2">Gut Harmony Bitters</h3>
-                            <p class="text-sm text-gray-500">Dandelion & Gentian</p>
-                            <p class="text-xl font-bold mt-2 easy-text">$29.00</p>
-                            <button class="mt-4 w-full text-white py-2 rounded-full font-semibold text-sm hover:bg-opacity-90 transition duration-300 easy-bg">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-12 text-center">
-                    <a href="#" class="inline-flex items-center text-xl font-semibold border-b-2 hover:opacity-80 transition duration-300 easy-text easy-link-border">
-                        
-                    </a>
+            <div class="relative rounded-xl overflow-hidden shadow-2xl h-full min-h-[300px] transform hover:scale-[1.01] transition duration-500">
+                <img data-src="https://img.freepik.com/free-photo/organic-cosmetic-product-with-dreamy-aesthetic-fresh-background_23-2151382859.jpg?semt=ais_hybrid&w=740&q=80" alt="A collection of Ayurvedic herbs and ingredients" class="w-full h-full object-cover lazy-image loaded" src="https://img.freepik.com/premium-photo/top-view-ayurvedic-herbs-arrangement_23-2150918731.jpg">
+                <div class="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
+                    <h4 class="text-xl font-bold">Holistic, Science-Backed Wellness.</h4>
                 </div>
             </div>
-        </section>
+
+        </div>
+        <div class="mt-12 text-center">
+            <a href="#" class="inline-flex items-center text-xl font-semibold border-b-2 hover:opacity-80 transition duration-300 easy-text easy-link-border">
+                
+            </a>
+        </div>
+    </div>
+</section>
+               
 
         <!-- Testimonial Section - Uses easy-bg (Dark Green) -->
         <section class="py-16 md:py-24 text-white easy-bg animate-on-scroll">
