@@ -3,39 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tatva AI  - Ayurveda Chatbot</title>
+    <title>Herbs AI  - Ayurveda Chatbot</title>
     <link rel="icon" type="image/png" href="./media/Screenshot_2025-11-10_at_00.36.18-removebg-preview.png">
-
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-
 <style>
     /* --- 1. Global Setup & Theme (Ayurveda Inspired) --- */
 :root {
-    --bg-main: #F5F3E7;           /* Creamy background */
-    --bg-sidebar: #1E4D2B;        /* Deep herbal green */
-    --bg-user-msg: #E8F5E9;       /* Light green (user bubble) */
-    --bg-bot-msg: #DDEAC1;        /* Soft olive-green (bot bubble) */
-    --text-primary: #1B1B1B;      /* Deep natural black */
-    --text-secondary: #3B5933;    /* Medium green-gray */
-    --border-color: #A4C49E;      /* Subtle green border */
-    --accent-green: #3E7B33;      /* Vibrant herbal green */
+    --bg-main: #F5F3E7;
+    --bg-sidebar: #1E4D2B;
+    --bg-user-msg: #E8F5E9;
+    --bg-bot-msg: #DDEAC1;
+    --text-primary: #1B1B1B;
+    --text-secondary: #3B5933;
+    --border-color: #A4C49E;
+    --accent-green: #3E7B33;
 }
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
-
 body {
     display: flex;
     background-color: var(--bg-main);
     color: var(--text-primary);
     overflow: hidden;
 }
-
-/* --- 2. Sidebar Styling --- */
+/* Sidebar */
 .sidebar {
     width: 260px;
     height: 100vh;
@@ -46,25 +41,21 @@ body {
     border-right: 3px solid var(--accent-green);
     flex-shrink: 0;
 }
-
 .sidebar-header {
     text-align: center;
     padding: 15px 0;
     border-bottom: 1px solid #2E6D41;
 }
-
 .ai-herbs-logo {
     width: 60px;
     height: auto;
     margin-bottom: 10px;
 }
-
 .sidebar-header h1 {
     font-size: 1.6rem;
     color: #F5F3E7;
     letter-spacing: 1px;
 }
-
 .new-chat-btn {
     width: 100%;
     padding: 12px;
@@ -80,29 +71,24 @@ body {
     gap: 10px;
     transition: all 0.3s ease;
 }
-
 .new-chat-btn:hover {
     background-color: #2E6D41;
     color: #fff;
 }
-
 .chat-history {
     margin-top: 20px;
     flex-grow: 1;
     overflow-y: auto;
 }
-
 .chat-history h3 {
     color: #B8D8B3;
     font-size: 0.8rem;
     text-transform: uppercase;
     margin-bottom: 10px;
 }
-
 #chat-history-list {
     list-style: none;
 }
-
 #chat-history-list li {
     padding: 10px;
     border-radius: 6px;
@@ -111,12 +97,10 @@ body {
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
-
 #chat-history-list li:hover {
     background-color: #3A855C;
 }
-
-/* --- 3. Main Chat Area --- */
+/* Main Chat Area */
 .chat-container {
     flex-grow: 1;
     height: 100vh;
@@ -124,7 +108,6 @@ body {
     flex-direction: column;
     background-color: var(--bg-main);
 }
-
 .chat-messages {
     flex-grow: 1;
     padding: 20px;
@@ -133,7 +116,6 @@ body {
     flex-direction: column;
     gap: 15px;
 }
-
 /* Message Styling */
 .message {
     padding: 15px 20px;
@@ -143,48 +125,40 @@ body {
     word-wrap: break-word;
     box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
 }
-
 .message.user {
     background-color: var(--bg-user-msg);
     align-self: flex-end;
     border: 1px solid var(--accent-green);
 }
-
 .message.bot {
     background-color: var(--bg-bot-msg);
     align-self: flex-start;
     border: 1px solid var(--border-color);
 }
-
 .message strong {
     color: var(--accent-green);
 }
-
 .message img {
     max-width: 100%;
     border-radius: 8px;
     margin-top: 5px;
 }
-
-/* --- 4. Typing Indicator --- */
+/* Typing Indicator */
 .typing-indicator {
     padding: 0 20px 10px 20px;
     color: var(--accent-green);
     font-style: italic;
 }
-
 .typing-indicator span {
     animation: blink 1.4s infinite both;
 }
 .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
 .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-
 @keyframes blink {
     0%, 100% { opacity: 0.3; }
     50% { opacity: 1; }
 }
-
-/* --- 5. Input Form --- */
+/* Input Form */
 .chat-input-form {
     display: flex;
     align-items: center;
@@ -192,7 +166,6 @@ body {
     background-color: var(--bg-main);
     border-top: 1px solid var(--border-color);
 }
-
 .icon-btn, .upload-btn {
     background: none;
     border: none;
@@ -202,12 +175,10 @@ body {
     padding-right: 10px;
     transition: all 0.2s ease;
 }
-
 .icon-btn:hover, .upload-btn:hover {
     color: #2E6D41;
     transform: scale(1.1);
 }
-
 #user-input {
     flex-grow: 1;
     padding: 14px;
@@ -219,12 +190,10 @@ body {
     outline: none;
     transition: all 0.2s ease;
 }
-
 #user-input:focus {
     border-color: var(--accent-green);
     box-shadow: 0 0 6px rgba(62,123,51,0.3);
 }
-
 .chat-input-form button[type="submit"] {
     background: none;
     border: none;
@@ -234,12 +203,10 @@ body {
     padding-left: 15px;
     transition: transform 0.2s;
 }
-
 .chat-input-form button[type="submit"]:hover {
     transform: scale(1.1);
 }
-
-/* --- 6. Camera Modal --- */
+/* Camera Modal */
 .camera-modal {
     position: fixed;
     top: 0;
@@ -252,7 +219,6 @@ body {
     justify-content: center;
     z-index: 1000;
 }
-
 .camera-modal-content {
     background-color: #F5F3E7;
     padding: 20px;
@@ -263,19 +229,16 @@ body {
     text-align: center;
     color: var(--text-primary);
 }
-
 #camera-feed {
     width: 100%;
     border-radius: 6px;
     background-color: #000;
     margin-bottom: 15px;
 }
-
 .camera-controls {
     display: flex;
     justify-content: space-around;
 }
-
 .modal-btn {
     padding: 10px 20px;
     font-size: 1rem;
@@ -286,33 +249,38 @@ body {
     cursor: pointer;
     transition: all 0.2s;
 }
-
 .modal-btn:hover {
     background-color: var(--accent-green);
     color: white;
 }
-
-/* --- 7. Responsive --- */
+/* Responsive */
 @media (max-width: 768px) {
-    .sidebar {
-        display: none;
+    .sidebar { display: none; }
+    .chat-container { width: 100%; }
+    .message { max-width: 90%; }
+}
+@media (max-width: 600px) {
+    body, html { font-size: 15px; overflow: auto; }
+    .chat-container { padding: 0 !important; width: 100vw; min-height: 100vh; }
+    .chat-messages { padding: 10px 4px; gap: 8px; font-size: 1rem; }
+    .chat-input-form {
+        position: fixed; left: 0; bottom: 0; width: 100vw; padding: 8px 8px 8px 4px;
+        border-radius: 0; border-top: 2px solid var(--border-color); background-color: var(--bg-main); z-index: 999;
+        justify-content: space-between;
     }
-    .chat-container {
-        width: 100%;
-    }
-    .message {
-        max-width: 90%;
-    }
+    #user-input { font-size: 1rem; min-height: 36px; padding: 8px; }
+    .icon-btn, .upload-btn, .chat-input-form button[type="submit"] { font-size: 1.2rem; padding: 6px; }
+    .message { padding: 10px 12px; font-size: 0.98rem; max-width: 98vw; }
+    .camera-modal-content { width: 98vw; max-width: 97vw; min-width: 50vw; padding: 10px 4px; }
+    #camera-feed { max-width: 95vw; width: 100%; min-width: 180px; border-radius: 8px; }
 }
 </style>
-
 </head>
 <body>
-
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img src="./media/Screenshot_2025-11-10_at_00.36.18-removebg-preview.png" alt="AI Herbs Logo" class="ai-herbs-logo" onerror="this.style.display='none'">
-            <h1>Herbs AI</h1>
+            <img  src="./media/Screenshot_2025-11-10_at_00.36.18-removebg-preview.png" alt="AI Herbs Logo" class="ai-herbs-logo" onerror="this.style.display='none'">
+            <a href="index.html"><h1>HERBZ AI</h1></a>
         </div>
         <button class="new-chat-btn" id="new-chat-btn">
             <span class="material-icons-outlined">add</span>
@@ -320,40 +288,29 @@ body {
         </button>
         <div class="chat-history">
             <h3>Chat History</h3>
-            <ul id="chat-history-list">
-                </ul>
+            <ul id="chat-history-list"></ul>
         </div>
     </aside>
-
     <main class="chat-container">
-        <div class="chat-messages" id="chat-messages">
-            </div>
-
+        <div class="chat-messages" id="chat-messages"></div>
         <div class="typing-indicator" id="typing-indicator" style="display: none;">
-            Tatva AI is scanning
+            AI Herbs is scanning
             <span>.</span><span>.</span><span>.</span>
         </div>
-
         <form class="chat-input-form" id="chat-form">
-            
             <button type="button" class="icon-btn upload-btn" id="upload-btn" title="Upload Image">
                 <span class="material-icons-outlined">attach_file</span>
             </button>
-            
             <button type="button" class="icon-btn" id="camera-btn" title="Take Photo">
                 <span class="material-icons-outlined">photo_camera</span>
             </button>
-            
             <input type="file" id="file-input" accept="image/*" style="display: none;">
-
             <input type="text" id="user-input" placeholder="Ask about an herb..." autocomplete="off">
-            
             <button type="submit" title="Send">
                 <span class="material-icons-outlined">send</span>
             </button>
         </form>
     </main>
-
     <div class="camera-modal" id="camera-modal">
         <div class="camera-modal-content">
             <h3>Take a Picture</h3>
@@ -364,9 +321,7 @@ body {
             </div>
         </div>
     </div>
-    
     <canvas id="canvas-capture" style="display: none;"></canvas>
-
     <script>
        document.addEventListener('DOMContentLoaded', () => {
     const chatForm = document.getElementById('chat-form');
@@ -395,15 +350,15 @@ body {
         "triphala": "Triphala is a blend of three fruits, used for digestion and detoxification.",
         "brahmi": "Brahmi boosts brain function, improves memory and focus.",
         "neem": "Neem purifies the blood and supports skin health.",
-        "edta": "EDTA (ethylenediaminetetraacetic acid) binds to heavy metals and is used in chelation therapy. It should be used with medical supervision.",
+        "edta": "EDTA (ethylenediaminetetraacetic acid) binds to heavy metals and is used in chelation therapy. It should be used with medical supervision.<br><br><ul><li>EDTA can cause skin dryness, itching, redness, rashes, and irritation, especially for people with sensitive skin or eczema. It may exacerbate skin conditions by damaging the skin barrier and causing cracked skin areas</li><br><li>EDTA in soaps and shampoos can enhance the absorption of other harmful chemicals into the skin, potentially leading to deeper penetration of allergens or toxins and systemic exposure.</li><br><li>Frequent use of EDTA-containing products has been linked to the depletion of essential minerals such as zinc, iron, and magnesium, which could affect skin and gut health by weakening the gut lining and disrupting nutrient absorption.</li></ul>",
+        "sls": "Sodium Lauryl Sulfate (SLS), a common ingredient in soaps and shampoos, is known for its cleansing and foaming properties but can have several side effects, particularly for sensitive users and with prolonged use.<br><br><ul><li>SLS frequently causes skin irritation, manifesting as redness, dryness, itching, or even rashes, especially with longer exposure or higher concentrations</li><br><li>The compound can also cause eye irritation, especially if it comes into direct contact with the eyes during rinsing.</li></ul>",
+        // more keywords can be added here
     };
-
     const WELCOME_MESSAGE = {
         sender: 'bot',
         type: 'text',
         content: 'Welcome to AI Herbs! You can ask or scan for herbs like Turmeric, Ashwagandha, or EDTA.'
     };
-
     let currentChatId = null;
     let allChats = [];
     let currentStream = null;
@@ -450,24 +405,26 @@ body {
         e.preventDefault();
         const message = userInput.value.trim();
         if (!message) return;
-
         appendMessage(message, 'user');
         showTypingIndicator();
-
         setTimeout(() => {
             const response = getBotResponse(message);
             hideTypingIndicator();
             appendMessage(response, 'bot');
         }, 1000);
-
         userInput.value = '';
     }
 
     function getBotResponse(input) {
         const lowerInput = input.toLowerCase();
-        if (ayurvedaKeywords[lowerInput]) return ayurvedaKeywords[lowerInput];
+        let found = [];
         for (const key in ayurvedaKeywords) {
-            if (lowerInput.includes(key)) return ayurvedaKeywords[key];
+            if (lowerInput.includes(key)) {
+                found.push(`<strong>${key}</strong>: ${ayurvedaKeywords[key]}`);
+            }
+        }
+        if (found.length > 0) {
+            return found.join('<br><br>');
         }
         return "I couldn't find that herb. Try scanning or typing a known one like Neem or EDTA.";
     }
@@ -516,22 +473,22 @@ body {
 
     async function scanImageForKeywords(imageUrl) {
         showTypingIndicator();
-        await new Promise(resolve => setTimeout(resolve, 500)); // small delay
-
+        await new Promise(resolve => setTimeout(resolve, 500));
         Tesseract.recognize(imageUrl, 'eng', { logger: m => console.log(m) })
             .then(({ data: { text } }) => {
                 hideTypingIndicator();
                 const detected = text.toLowerCase();
-                console.log("Detected Text:", detected);
-
+                let found = [];
                 for (const key in ayurvedaKeywords) {
                     if (detected.includes(key)) {
-                        appendMessage(`Detected: <strong>${key}</strong><br>${ayurvedaKeywords[key]}`, 'bot');
-                        return;
+                        found.push(`<strong>${key}</strong>: ${ayurvedaKeywords[key]}`);
                     }
                 }
-
-                appendMessage("No known herb detected. Try clearer image or type it manually.", "bot");
+                if (found.length > 0) {
+                    appendMessage(`Detected:<br>${found.join('<br><br>')}`, 'bot');
+                } else {
+                    appendMessage("No known herb detected. Try clearer image or type it manually.", "bot");
+                }
             })
             .catch(err => {
                 hideTypingIndicator();
@@ -547,7 +504,6 @@ body {
         chatMessages.appendChild(msg);
         scrollToBottom();
     }
-
     function appendImageMessage(imageUrl, sender) {
         const msg = document.createElement('div');
         msg.classList.add('message', sender, 'image-only');
@@ -557,25 +513,19 @@ body {
         chatMessages.appendChild(msg);
         scrollToBottom();
     }
-
     function showTypingIndicator() {
         typingIndicator.style.display = 'block';
         scrollToBottom();
     }
-
     function hideTypingIndicator() {
         typingIndicator.style.display = 'none';
     }
-
     function scrollToBottom() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-
     loadChatHistory();
     startNewChat();
 });
-
-
     </script>
 </body>
 </html>
