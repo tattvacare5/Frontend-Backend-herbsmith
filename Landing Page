@@ -104,7 +104,7 @@
             <div class="flex justify-between items-center h-20">
                 <!-- Logo/Brand Name -->
                 <div class="flex-shrink-0">
-                    <a href="#" class="text-3xl font-extrabold tracking-tighter easy-text">HerbzSmith.</a>
+                    <a href="./index.html" class="text-3xl font-extrabold tracking-tighter easy-text">HerbzSmith.</a>
                     <p class="text-xs text-gray-500 uppercase tracking-widest">Natural Wellness</p>
                 </div>
                 
